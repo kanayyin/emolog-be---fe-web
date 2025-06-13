@@ -132,10 +132,11 @@ class AuthController extends Controller
     public function changePassword(Request $request)
 {
     $request->validate([
-        'new_password' => 'required|string|min:6|confirmed', // harus kirim juga password_confirmation
+        'current_password' => 'required|string',
+        'new_password' => 'required|string|min:6|confirmed',
     ]);
 
-    $user = $request->user();
+    $user = Auth::user();
 
     if (!$user) {
         if ($request->expectsJson()) {
@@ -145,14 +146,23 @@ class AuthController extends Controller
         }
     }
 
+    // Cek apakah current_password yang dikirim cocok dengan password lama
+    if (!Hash::check($request->current_password, $user->password)) {
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Password saat ini salah'], 422);
+        } else {
+            return back()->withErrors(['current_password' => 'Password saat ini salah'])->withInput();
+        }
+    }
+
+    // Update password
     $user->password = Hash::make($request->new_password);
     $user->save();
 
     if ($request->expectsJson()) {
         return response()->json(['message' => 'Password berhasil diubah']);
     } else {
-        return redirect()->route('home')->with('success', 'Password berhasil diubah');
+        return redirect()->route('setting')->with('success', 'Password berhasil diubah!');
     }
 }
-
 }

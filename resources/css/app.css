@@ -1305,7 +1305,7 @@ body#journaling {
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
-  padding-top: 250px; /* Space for fixed navbar */
+  padding-top: 100px; /* Space for fixed navbar */
   display: flex;
   flex-direction: column;
   gap: 20px; /* Memberi jarak antara navbar dan profile-container */

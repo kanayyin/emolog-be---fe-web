@@ -38,5 +38,7 @@ Route::get('/setting', function () {
 })->name('setting');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change.password');
+
 
 
