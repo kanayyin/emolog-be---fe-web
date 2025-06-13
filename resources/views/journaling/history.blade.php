@@ -11,8 +11,8 @@
     <!-- Header -->
     <header class="navbar">
         <div class="logo">
-         <a href="{{ route('home') }}">
-           <img src="{{asset('images/logo.png)}}" alt="Logo" />
+         <a href="../home">
+           <img src="{{asset('images/emolog512fix.png')}}" alt="Logo" />
           </a>
         </div>
         <nav class="nav">
@@ -26,117 +26,77 @@
 
     <!-- Main Content -->
     <main class="main-content-history">
+        <!-- Mode Toggle -->
+        <div class="toggle-mode">
+            <button id="dayBtn" class="toggle-btn active">Day</button>
+            <button id="weekBtn" class="toggle-btn">Week</button>
+        </div>
+
         <!-- Calendar Section -->
-        <div class="card">
+        <div class="calendar-section">
+            <!-- Day View -->
+            <div id="dayView">
+                <div class="calendar-header">
+                    <button class="nav-btn"><</button>
+                    <h2 class="calendar-title">June, 2025</h2>
+                    <button class="nav-btn">></button>
+                </div>
+                <div class="calendar-grid">
+                    <div class="day-header">M</div>
+                    <div class="day-header">T</div>
+                    <div class="day-header">W</div>
+                    <div class="day-header">T</div>
+                    <div class="day-header">F</div>
+                    <div class="day-header">S</div>
+                    <div class="day-header">S</div>
+                    <button class="calendar-day selected">2</button>
+                    <button class="calendar-day">3</button>
+                    <button class="calendar-day">4</button>
+                    <button class="calendar-day">5</button>
+                    <button class="calendar-day">6</button>
+                    <button class="calendar-day">7</button>
+                    <button class="calendar-day">8</button>
+                </div>
+            </div>
+
+            <!-- Week View -->
+            <div id="weekView" style="display: none">
             <div class="calendar-header">
-                <h2 class="calendar-title">Juni, 2025</h2>
-                <div class="calendar-nav">
-                    <button class="nav-btn">
-                        <svg class="icon" viewBox="0 0 24 24">
-                            <path d="m15 18-6-6 6-6"/>
-                        </svg>
-                    </button>
-                    <button class="nav-btn">
-                        <svg class="icon" viewBox="0 0 24 24">
-                            <path d="m9 18 6-6-6-6"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-            <div class="calendar-grid">
-                <!-- Day Headers -->
-                <div class="day-header">M</div>
-                <div class="day-header">T</div>
-                <div class="day-header">W</div>
-                <div class="day-header">T</div>
-                <div class="day-header">F</div>
-                <div class="day-header">S</div>
-                <div class="day-header">S</div>
-                
-                <!-- Calendar Days -->
-                <button class="calendar-day other-month">30</button>
-                <button class="calendar-day other-month">31</button>
-                <button class="calendar-day current-month">1</button>
-                <button class="calendar-day current-month selected">2</button>
-                <button class="calendar-day current-month">3</button>
-                <button class="calendar-day current-month">4</button>
-                <button class="calendar-day current-month">5</button>
-                <button class="calendar-day current-month">6</button>
-                <button class="calendar-day current-month">7</button>
-                <button class="calendar-day current-month">8</button>
-                <button class="calendar-day current-month">9</button>
-                <button class="calendar-day current-month">10</button>
-                <button class="calendar-day current-month">11</button>
-                <button class="calendar-day current-month">12</button>
-                <button class="calendar-day current-month">13</button>
-                <button class="calendar-day current-month">14</button>
-                <button class="calendar-day current-month">15</button>
-                <button class="calendar-day current-month">16</button>
-                <button class="calendar-day current-month">17</button>
-                <button class="calendar-day current-month">18</button>
-                <button class="calendar-day current-month">19</button>
-                <button class="calendar-day current-month">20</button>
-                <button class="calendar-day current-month">21</button>
-                <button class="calendar-day current-month">22</button>
-                <button class="calendar-day current-month">23</button>
-                <button class="calendar-day current-month">24</button>
-                <button class="calendar-day current-month">25</button>
-                <button class="calendar-day current-month">26</button>
-                <button class="calendar-day current-month">27</button>
-                <button class="calendar-day current-month">28</button>
-                <button class="calendar-day current-month">29</button>
-                <button class="calendar-day current-month">30</button>
-                <button class="calendar-day other-month">1</button>
-                <button class="calendar-day other-month">2</button>
-                <button class="calendar-day other-month">3</button>
-            </div>
-        </div>
-
-        <!-- Journal Entry Section -->
-        <div class="card">
-            <div class="journal-header">
-                <h3>Selasa, 2 Juni 2025</h3>
-            </div>
-
-            <!-- Mood Section -->
-            <div class="mood-section">
-                <p class="mood-label">Your feeling in this day</p>
-                <div class="mood-display">
-                    <div class="mood-emoji">😊</div>
-                </div>
-            </div>
-
-            <!-- Diary Section -->
-            <div class="diary-section">
-                <div class="diary-header">
-                    <h4 class="diary-title">Diary hari itu...</h4>
-                    <button class="edit-btn">
-                        <svg class="icon-small" viewBox="0 0 24 24">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                            <path d="m18.5 2.5 1 1L13 10l-4 1 1-4z"/>
-                        </svg>
-                    </button>
-                </div>
-                
-                <div class="diary-content">
-                    <p class="diary-text">
-                        Hari ini adalah hari yang menyenangkan. Saya berhasil menyelesaikan proyek yang sudah lama tertunda. 
-                        Cuaca juga sangat mendukung untuk aktivitas outdoor. Saya merasa bersyukur dan optimis untuk hari-hari ke depan.
-                        Terima kasih untuk semua hal baik yang terjadi hari ini.
-                    </p>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <button class="btn-secondary">Delete Entry</button>
-                    <button class="btn-primary">Save Changes</button>
+                    <button class="nav-btn"><</button>
+                    <h2 class="calendar-title">Jun 02 - Jun 08</h2>
+                    <button class="nav-btn">></button>
                 </div>
             </div>
         </div>
+
+        <!-- Diary List -->
+        <div class="card journal-card">
+            <div class="journal-entry">
+                <h5 class="entry-title">Bahagia</h5>
+                <p class="entry-text">Hari ini sangat bahagia sekali.</p>
+            </div>
+        </div>
+
+        <!-- Floating Button -->
+        <button class="floating-btn">+</button>
     </main>
-    <footer class="footer-global">
-        <p>&copy; Mood Tracker</p>
-    </footer>
+
+    <!-- Script to handle view toggle -->
+    <script>
+        document.getElementById('dayBtn').addEventListener('click',function(){
+            document.getElementById('dayView').style.display = '';
+            document.getElementById('weekView').style.display = 'none';
+            this.classList.add('active');
+            document.getElementById('weekBtn').classList.remove('active'); 
+        });
+
+        document.getElementById('weekBtn').addEventListener('click',function(){
+            document.getElementById('dayView').style.display = 'none';
+            document.getElementById('weekView').style.display = '';
+            this.classList.add('active'); 
+            document.getElementById('dayBtn').classList.remove('active'); 
+        });
+    </script>
+
 </body>
 </html>
