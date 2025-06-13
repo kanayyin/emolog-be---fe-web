@@ -12,7 +12,7 @@
     <header class="navbar">
         <div class="logo">
          <a href="{{ route('home') }}">
-           <img src="/assets/emologlogo.png" alt="Logo" />
+           <img src="{{asset('images/emologlogo.png')}}" alt="Logo" />
           </a>
         </div>
         <nav class="nav">
@@ -40,8 +40,8 @@
     <div class="journaling-footer">
       <button class="save-btn">Save</button>
       <div class="icon-group">
-        <img src="/assets/photo.png" alt="image" class="icon">
-        <img src="/assets/camera.png" alt="camera" class="icon">
+        <img src="{{asset('images/photo.png')}}" alt="image" class="icon">
+        <img src="{{asset('images/camera.png')}}" alt="camera" class="icon">
       </div>
     </div>
   </section>

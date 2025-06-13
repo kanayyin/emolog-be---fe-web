@@ -16,15 +16,15 @@
                 @csrf
                 <div class="form-group">
                     <div class="input-with-icon">
-                        <img src="/assets/account.png" alt="Profile Icon" class="input-icon">
+                        <img src="{{asset('images/account.png')}}" alt="Profile Icon" class="input-icon">
                         <input type="text" name="username" placeholder="Username" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-with-icon">
-                        <img src="/assets/pass.png" alt="Profile Icon" class="input-icon">
+                        <img src="{{asset('images/pass.png')}}" alt="Profile Icon" class="input-icon">
                         <input type="password" name="password" id="passwordInput" placeholder="Password" required>
-                        <img src="/assets/eyes.png" alt="Toggle Password" class="toggle-password" onclick="togglePassword()">
+                        <img src="{{asset('images/eyes.png')}}" alt="Toggle Password" class="toggle-password" onclick="togglePassword()">
 
                         <script>
                         function togglePassword() {

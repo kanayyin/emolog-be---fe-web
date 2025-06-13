@@ -12,8 +12,8 @@
   <!-- Navbar -->
   <header class="navbar">
         <div class="logo">
-         <a href="../home/homepage.html">
-           <img src="/assets/logo.png" alt="Logo" />
+         <a href="{{ route('home') }}">
+           <img src="{{asset('images/logo.png')}}" alt="Logo" />
           </a>
         </div>
         <nav class="nav">

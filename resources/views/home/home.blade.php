@@ -18,7 +18,9 @@
         </div>
         <nav class="nav">
             <ul>
-                <li><a href="{{ route('journaling') }}">Diary</a></li>
+                <li><a href="{{route('journaling')}}">Diary</a></li>
+                <li><a href="{{route('history')}}" >History</a></li>
+                <li><a href="{{route('setting')}}">Setting</a></li>
             </ul>
         </nav>
     </header>

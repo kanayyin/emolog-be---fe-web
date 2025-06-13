@@ -74,6 +74,7 @@ class DiaryController extends Controller
         return response()->json(['message' => 'Diary berhasil disimpan', 'diary' => $diary]);
 
     }
+    
     public function getTodayMood()
     {
         $user = Auth::user();
@@ -81,6 +82,7 @@ class DiaryController extends Controller
 
         $diary = Diary::where('username', $user->username)
             ->whereDate('diary_date', $today)
+            ->orderBy('id', 'desc')
             ->first();
 
         return response()->json([
@@ -88,6 +90,7 @@ class DiaryController extends Controller
             'mood' => $diary?->mood ?? null
         ]);
     }
+    
     public function getWeeklyMood(Request $request)
     {
         $user = Auth::user();
