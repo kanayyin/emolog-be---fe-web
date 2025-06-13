@@ -12,7 +12,7 @@
     <header class="navbar">
         <div class="logo">
          <a href="{{ route('home') }}">
-           <img src="{{asset('images/emologlogo.png')}}" alt="Logo" />
+           <img src="{{asset('images/emolog512fix.png')}}" alt="Logo" />
           </a>
         </div>
         <nav class="nav">

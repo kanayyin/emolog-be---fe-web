@@ -37,5 +37,6 @@ Route::get('/setting', function () {
     return view('setting.setting');
 })->name('setting');
 
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 

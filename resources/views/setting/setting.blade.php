@@ -13,7 +13,7 @@
   <header class="navbar">
         <div class="logo">
          <a href="{{ route('home') }}">
-           <img src="{{asset('images/logo.png')}}" alt="Logo" />
+           <img src="{{asset('images/emolog512fix.png')}}" alt="Logo" />
           </a>
         </div>
         <nav class="nav">
@@ -32,10 +32,10 @@
       <div class="profile-header">
         <div class="profile-content">
           <div class="profile-picture">
-            <img src="/assets/profile.png" alt="Profile Picture" class="profile-img">
+            <img src="{{ asset('images/profile.png')}}" alt="Profile Picture" class="profile-img">
           </div>
           <div class="profile-info">
-            <h1>Sandi</h1>
+            <h1>{{ Auth::user()->username }}</h1>
 
             <div class="profile-row">
               <label for="fullname">Fullname</label>
@@ -59,9 +59,11 @@
               <span class="change-btn" id="changePasswordBtn">Change</span>
             </div>
 
-            <div class="logout-btn">
-              <button>Logout</button>
-            </div>
+            <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+              @csrf
+              <button type="submit" class="btn btn-danger">Logout</button>
+          </form>
+
           </div>
         </div>
       </div>
@@ -112,7 +114,7 @@
             <input type="password" id="currentPassword" placeholder="Current Password">
             <!-- Eye icon for toggle password visibility -->
             <span class="toggle-password" onclick="togglePassword('currentPassword')">
-                <img id="eye-icon-current" src="/assets/eyeclose.png" alt="Eye Icon" width="30px">
+                <img id="eye-icon-current" src="{{ asset('images/eyeclose.png')}}" alt="Eye Icon" width="30px">
             </span>
         </div>
         
@@ -122,7 +124,7 @@
             <input type="password" id="newPassword" placeholder="Enter new password">
             <!-- Eye icon for toggle password visibility -->
             <span class="toggle-password" onclick="togglePassword('newPassword')">
-                <img id="eye-icon-new" src="/assets/eyeclose.png" alt="Eye Icon" width="30px">
+                <img id="eye-icon-new" src="{{ asset('images/eyeclose.png')}}" alt="Eye Icon" width="30px">
             </span>
         </div>
         
@@ -132,7 +134,7 @@
             <input type="password" id="confirmPassword" placeholder="Confirm new password">
             <!-- Eye icon for toggle password visibility -->
             <span class="toggle-password" onclick="togglePassword('confirmPassword')">
-                <img id="eye-icon-confirm" src="/assets/eyeclose.png" alt="Eye Icon" width="30px">
+                <img id="eye-icon-confirm" src="{{ asset('images/eyeclose.png')}}" alt="Eye Icon" width="30px">
             </span>
         </div>
         

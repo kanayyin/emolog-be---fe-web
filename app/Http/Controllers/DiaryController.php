@@ -9,7 +9,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 use Carbon\CarbonInterface;
 
-
 class DiaryController extends Controller
 {
     public function getDiariesByDay(Request $request)
@@ -25,11 +24,16 @@ class DiaryController extends Controller
             ->orderBy('diary_date', 'desc')
             ->get();
 
-        return response()->json([
+        if ($request->wantsJson()) {
+            return response()->json(['diaries' => $diaries]);
+        }
+
+        return view('diary.day', [
+            'date' => $request->date,
             'diaries' => $diaries
         ]);
-
     }
+
     public function getDiariesByWeek(Request $request)
     {
         $request->validate([
@@ -45,8 +49,17 @@ class DiaryController extends Controller
             ->orderBy('diary_date', 'asc')
             ->get();
 
-        return response()->json($diaries);
+        if ($request->wantsJson()) {
+            return response()->json($diaries);
+        }
+
+        return view('diary.week', [
+            'start_date' => $start,
+            'end_date' => $end,
+            'diaries' => $diaries
+        ]);
     }
+
     public function createDiary(Request $request)
     {
         $request->validate([
@@ -55,14 +68,12 @@ class DiaryController extends Controller
             'diary_date' => 'required|date',
         ]);
 
-        // Kirim konten ke API Python
         $response = Http::post('http://localhost:9000/analyze', [
             'content' => $request->content
         ]);
 
         $mood = $response->successful() ? $response->json()['mood'] : 'Unknown';
 
-        // Simpan diary
         $diary = Diary::create([
             'username' => $request->user()->username,
             'title' => $request->title,
@@ -71,10 +82,13 @@ class DiaryController extends Controller
             'diary_date' => $request->diary_date,
         ]);
 
-        return response()->json(['message' => 'Diary berhasil disimpan', 'diary' => $diary]);
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Diary berhasil disimpan', 'diary' => $diary]);
+        }
 
+        return redirect()->back()->with('success', 'Diary berhasil disimpan');
     }
-    
+
     public function getTodayMood()
     {
         $user = Auth::user();
@@ -85,28 +99,33 @@ class DiaryController extends Controller
             ->orderBy('id', 'desc')
             ->first();
 
-        return response()->json([
+        if (request()->wantsJson()) {
+            return response()->json([
+                'date' => $today,
+                'mood' => $diary?->mood ?? null
+            ]);
+        }
+
+        return view('diary.today', [
             'date' => $today,
-            'mood' => $diary?->mood ?? null
+            'mood' => $diary?->mood,
+            'content' => $diary?->content
         ]);
     }
-    
+
     public function getWeeklyMood(Request $request)
     {
         $user = Auth::user();
-
-        // Ambil start_date dari query, default ke minggu ini kalau tidak ada
         $start = Carbon::parse($request->query('start_date', Carbon::now()->startOfWeek(CarbonInterface::MONDAY)));
-        $end = $start->copy()->addDays(6); // 7 hari total
+        $end = $start->copy()->addDays(6);
 
         $diaries = Diary::where('username', $user->username)
             ->whereBetween('diary_date', [$start->toDateString(), $end->toDateString()])
             ->get()
             ->groupBy(function ($diary) {
-                return Carbon::parse($diary->diary_date)->locale('id')->isoFormat('dddd'); // Senin, Selasa, dst
+                return Carbon::parse($diary->diary_date)->locale('id')->isoFormat('dddd');
             });
 
-        // Pastikan semua 7 hari ada walau kosong
         $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
         $result = [];
 
@@ -114,22 +133,42 @@ class DiaryController extends Controller
             $result[$day] = isset($diaries[$day]) ? $diaries[$day]->pluck('mood') : [];
         }
 
-        return response()->json($result);
+        if ($request->wantsJson()) {
+            return response()->json($result);
+        }
+
+        return view('diary.mood-weekly', [
+            'moodByDay' => $result,
+            'start' => $start,
+            'end' => $end,
+        ]);
     }
+
     public function deleteDiary($id)
     {
         $diary = Diary::find($id);
 
         if (!$diary) {
-            return response()->json(['message' => 'Diary tidak ditemukan'], 404);
+            return request()->wantsJson()
+                ? response()->json(['message' => 'Diary tidak ditemukan'], 404)
+                : redirect()->back()->with('error', 'Diary tidak ditemukan');
         }
-        if (!$diary || $diary->username !== auth()->user()->username) {
-            return response()->json(['message' => 'Tidak diizinkan'], 403);
+
+        if ($diary->username !== auth()->user()->username) {
+            return request()->wantsJson()
+                ? response()->json(['message' => 'Tidak diizinkan'], 403)
+                : redirect()->back()->with('error', 'Tidak diizinkan');
         }
+
         $diary->delete();
 
-        return response()->json(['message' => 'Diary berhasil dihapus']);
+        if (request()->wantsJson()) {
+            return response()->json(['message' => 'Diary berhasil dihapus']);
+        }
+
+        return redirect()->back()->with('success', 'Diary berhasil dihapus');
     }
+
     public function updateDiary(Request $request, $id)
     {
         $request->validate([
@@ -141,14 +180,17 @@ class DiaryController extends Controller
         $diary = Diary::find($id);
 
         if (!$diary) {
-            return response()->json(['message' => 'Diary tidak ditemukan'], 404);
+            return request()->wantsJson()
+                ? response()->json(['message' => 'Diary tidak ditemukan'], 404)
+                : redirect()->back()->with('error', 'Diary tidak ditemukan');
         }
 
         if ($diary->username !== auth()->user()->username) {
-            return response()->json(['message' => 'Tidak diizinkan'], 403);
+            return request()->wantsJson()
+                ? response()->json(['message' => 'Tidak diizinkan'], 403)
+                : redirect()->back()->with('error', 'Tidak diizinkan');
         }
 
-        // Kirim ulang konten ke API Python untuk analisis mood baru
         $response = Http::post('http://localhost:9000/analyze', [
             'content' => $request->content
         ]);
@@ -162,7 +204,10 @@ class DiaryController extends Controller
             'diary_date' => $request->diary_date,
         ]);
 
-        return response()->json(['message' => 'Diary berhasil diperbarui', 'diary' => $diary]);
-    }
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Diary berhasil diperbarui', 'diary' => $diary]);
+        }
 
+        return redirect()->back()->with('success', 'Diary berhasil diperbarui');
+    }
 }

@@ -9,6 +9,14 @@
     
 </head>
 <body>
+    @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
     <!-- Navbar -->
     <header class="navbar">
         <div class="logo">
@@ -25,8 +33,14 @@
         </nav>
     </header>
 
+    
+
+
     <!-- Main Content will be added later -->
     <main class="main-content-home">
+
+        
+
         <!-- Greeting Section -->
         <section class="greeting">
             <div class="greeting-content">
@@ -193,5 +207,8 @@
         </footer>
 
     </main>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

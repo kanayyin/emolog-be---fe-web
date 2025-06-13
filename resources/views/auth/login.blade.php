@@ -39,6 +39,12 @@
                         </div>
                 </div>
                 <button type="submit" class="login-btn-sign-in">Sign In</button>
+                @if ($errors->has('username'))
+                    <div class="alert alert-danger mt-3">
+                        {{ $errors->first('username') }}
+                    </div>
+                @endif
+
             </form>
 
         </div>
