@@ -12,26 +12,38 @@
         <div class="login-left-side">
             <h1>Sign In to Emolog</h1>
             <p>or use your e-mail account:</p>
-            <form action="#">
+            <form action="{{ route('login') }}" method="POST">
+                @csrf
                 <div class="form-group">
                     <div class="input-with-icon">
                         <img src="/assets/account.png" alt="Profile Icon" class="input-icon">
-                        <input type="text" placeholder="Name" required>
+                        <input type="text" name="username" placeholder="Username" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-with-icon">
                         <img src="/assets/pass.png" alt="Profile Icon" class="input-icon">
-                        <input type="password" placeholder="Password" required>
+                        <input type="password" name="password" id="passwordInput" placeholder="Password" required>
                         <img src="/assets/eyes.png" alt="Toggle Password" class="toggle-password" onclick="togglePassword()">
-                    </div>
+
+                        <script>
+                        function togglePassword() {
+                            const passwordInput = document.getElementById('passwordInput');
+                            if (passwordInput.type === 'password') {
+                                passwordInput.type = 'text';
+                            } else {
+                                passwordInput.type = 'password';
+                            }
+                        }
+                        </script>                    
+                        </div>
                 </div>
-                <a href="../forgotpass/forgotpass.html" class="forgot-password">Forgot your password?</a>
-                <button class="login-btn-sign-in" onclick="window.location.href='{{ route('home') }}'">Sign In</button>
+                <button type="submit" class="login-btn-sign-in">Sign In</button>
             </form>
+
         </div>
         <div class="login-right-side">
-            <h1>Hello, Sandi!</h1>
+            <h1>Hello dear!</h1>
             <p>Enter your personal details and start your journey with us</p>
             <button class="login-btn-sign-up" onclick="window.location.href='{{ route('register') }}'">Sign Up</button>
         </div>

@@ -17,27 +17,41 @@
         <div class="right-side">
             <h1>Create Account</h1>
             <p>our use your e-mail for registration:</p>
-            <form action="#">
+            <form action="{{ route('register') }}" method="POST">
+                @csrf
                 <div class="form-group">
                     <div class="input-with-icon">
                         <img src="/assets/account.png" alt="Profile Icon" class="input-icon">
-                        <input type="text" placeholder="Name" required>
+                        <input type="text" name="username" placeholder="Name" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-with-icon">
                         <img src="/assets/mail.png" alt="Profile Icon" class="input-icon">
-                        <input type="text" placeholder="Email" required>
+                        <input type="text" name="email" placeholder="Email" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-with-icon">
                         <img src="/assets/pass.png" alt="Profile Icon" class="input-icon">
-                        <input type="password" placeholder="Password" required>
+                        <input type="password" name="password" id="passwordInput" placeholder="Password" required>
                         <img src="/assets/eyes.png" alt="Toggle Password" class="toggle-password" onclick="togglePassword()">
+
+                        <script>
+                        function togglePassword() {
+                            const passwordInput = document.getElementById('passwordInput');
+                            if (passwordInput.type === 'password') {
+                                passwordInput.type = 'text';
+                            } else {
+                                passwordInput.type = 'password';
+                            }
+                        }
+                        </script>
+
                     </div>
                 </div>
-                <button class="btn-sign-up" onclick="window.location.href='{{ route('login') }}'">Sign Up</button>
+                <button type="submit" class="btn-sign-up">Sign Up</button>
+                <!--<button class="btn-sign-up" onclick="window.location.href='{{ route('login') }}'">Sign Up</button>-->
             </form>
         </div>
     </div>

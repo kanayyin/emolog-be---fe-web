@@ -18,7 +18,7 @@
         </div>
         <nav class="nav">
             <ul>
-                <li><a href="{{ route('journaling') }}">Journaling</a></li>
+                <li><a href="{{ route('journaling') }}">Diary</a></li>
             </ul>
         </nav>
     </header>
@@ -29,11 +29,12 @@
         <section class="greeting">
             <div class="greeting-content">
                 <div class="greeting-text">
-                    <h1>Hello, Sandi!</h1>
+                    <h1>Hello, {{ Auth::user()->username }}!</h1>
                     <h3>Nice to meet you here!</h3>
                     <p></p>
                     <p>Don’t worry about making it perfect—just be honest. One day, when you need a little motivation or want to see how far you’ve come, you can revisit this first entry. Your emotions matter, and Emolog is here to be your safe space to express them.</p>
-                    <button class="start-journaling-btn">Start Journaling</button>
+                    <a href="{{ route('journaling') }}" class="start-journaling-btn">Start Journaling</a>
+
                 </div>
 
                 <!-- Placeholder in the same box -->

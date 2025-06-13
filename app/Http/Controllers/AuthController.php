@@ -14,7 +14,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|unique:users,username',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6',
         ]);
 
         if ($validator->fails()) {
@@ -27,7 +27,8 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return response()->json(['message' => 'Register berhasil', 'user' => $user]);
+        return redirect()->route('login')->with('success', 'Register berhasil. Silakan login.');
+
     }
 
     public function login(Request $request)
@@ -45,8 +46,18 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
+        Auth::login($user); // <- Tambahkan ini agar Laravel anggap user sudah login
+
+        return redirect()->route('home')->with('success', 'Login berhasil');
+
+
     }
+
+    public function showLogin()
+    {
+        return view('auth.login');
+    }
+
 
    public function logout(Request $request)
 {
