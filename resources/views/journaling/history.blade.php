@@ -133,7 +133,10 @@
 
             for (let d = 1; d <= daysInMonth; d++) {
                 const thisDate = new Date(year, month, d);
-                const isoDate = thisDate.toISOString().split('T')[0];
+                const isoDate = thisDate.getFullYear() + '-' +
+    String(thisDate.getMonth() + 1).padStart(2, '0') + '-' +
+    String(thisDate.getDate()).padStart(2, '0');
+
                 calendarDays.innerHTML += `<button class="calendar-day" data-date="${isoDate}">${d}</button>`;
             }
 
