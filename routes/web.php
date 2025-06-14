@@ -18,9 +18,10 @@ Route::get('/register', function () {
 Route::post('/register', [AuthController::class, 'register']);
 
 //route untuk home
-Route::get('/home', function () {
-    return view('home.home');  // Pastikan file ada di resources/views/home/home.blade.php
-})->name('home');
+use App\Http\Controllers\DiaryController;
+
+Route::get('/home', [DiaryController::class, 'getWeeklyMood'])->name('home');
+
 
 // Route untuk halaman Journaling
 Route::get('/journaling', function () {

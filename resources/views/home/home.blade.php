@@ -60,103 +60,56 @@
             </div>
         </section>
 
-         <!-- Day Streak Section inside a Box -->
-         <section class="day-streak-box">
-            <div class="day-streak-content">
-                <!-- Left Side: Day Streak -->
-                <div class="streak-left">
-                    <div class="streak-header">
-                        <div class="streak-icon">⚡</div>
-                        <h2>Day Streak!</h2>
-                    </div>
-                    <div class="streak">
-                        <div class="day active">M</div>
-                        <div class="day active">T</div>
-                        <div class="day active">W</div>
-                        <div class="day">T</div>
-                        <div class="day">F</div>
-                        <div class="day">S</div>
-                        <div class="day">S</div>
-                    </div>
-                    <p class="streak-message">Write down your Bean Journey everyday</p>
-                </div>
-
-                <!-- Right Side: Current Streak and Total Diary -->
-                <div class="streak-right">
-                    <div class="streak-details">
-                        <p><strong>Current Streak:</strong> 16 days</p>
-                        <p><strong>Total Diary:</strong> 14</p>
-                    </div>
-                    
-                </div>
-            </div>
-        </section>
-
-        <!-- Latest Diary Section -->
-        <h2 style="margin-top: 50px;">Latest Diary</h2>
-        <section class="latest-diary">
-            <div class="diary-box">
-                <div class="diary-left">
-                    <!-- Image (can be a mood icon or user image) -->
-                    <img src="{{ asset('images/latestdiary.png') }}" alt="Mood Icon" class="diary-image">
-                </div>
-                <div class="diary-center">
-                    <!-- Diary Text -->
-                    <p class="diary-text">Today I’ve spent 2 hours running outside, also played basketball with my friends. What should I do tomorrow?</p>
-                </div>
-                <div class="diary-right">
-            <!-- Emoji happy above the date -->
-                    <div class="emoji-container">
-                        <img src="{{ asset('images/happy.png') }}" alt="Happy Emoji" class="emoji">
-                     </div>
-            <!-- Date below the emoji -->
-                    <p class="diary-date">02 Wed</p>
-                </div>
-            </div>
-        </section>
-
         <!-- Recap A Week Section -->
-        <section class="recap-week-section">
-            <h2 class="recap-week-header">Recap a week</h2>
+         @php
+            use Carbon\Carbon;
 
-            <div class="recap-week-navigation">
-                <button class="nav-arrow" id="prev-week">&#10094;</button>
-                <div class="date-range">29 Jan 25 – 5 Feb 25</div>
-                <button class="nav-arrow" id="next-week">&#10095;</button>
+            $prevWeek = Carbon::parse($start)->subWeek();
+            $nextWeek = Carbon::parse($start)->addWeek();
+        @endphp
+<section class="recap-week-section">
+    <h2 class="recap-week-header">Recap a week</h2>
+
+    <div class="week-nav">
+        <a href="{{ route('home', ['start_date' => $prevWeek->format('Y-m-d')]) }}" class="nav-arrow">&lt;</a>
+
+        <span class="nav-date">
+            {{ Carbon::parse($start)->translatedFormat('j M') }} - {{ Carbon::parse($end)->translatedFormat('j M') }}
+        </span>
+
+        <a href="{{ route('home', ['start_date' => $nextWeek->format('Y-m-d')]) }}" class="nav-arrow">&gt;</a>
+    </div>
+
+
+    <div class="week-container">
+        @foreach ($dateRange as $date)
+            @php
+                $carbonDate = \Carbon\Carbon::parse($date);
+                $dayName = $carbonDate->translatedFormat('l');
+                $dayFormatted = $carbonDate->format('d M');
+                $dayMood = $moodByDay[$date] ?? ['happy' => 0, 'neutral' => 0, 'sad' => 0];
+                $maxMood = array_keys($dayMood, max($dayMood));
+            @endphp
+
+
+            <div class="day-box">
+                <div class="day-label">{{ $dayName }} - {{ $dayFormatted }}</div>
+                <div class="emoji-row">
+                    <span class="emoji {{ in_array('happy', $maxMood) ? 'highlight' : '' }}">
+                        <img src="{{ asset('images/happy.png') }}" alt="Happy">
+                    </span>
+                    <span class="emoji {{ in_array('neutral', $maxMood) ? 'highlight' : '' }}">
+                        <img src="{{ asset('images/netral.png') }}" alt="Neutral">
+                    </span>
+                    <span class="emoji {{ in_array('sad', $maxMood) ? 'highlight' : '' }}">
+                        <img src="{{ asset('images/sad.png') }}" alt="Sad">
+                    </span>
+                </div>
             </div>
+        @endforeach
+    </div>
 
-            <div class="recap-week-list">
-                <div class="recap-item">
-                <div class="emoji-container">
-                    <img src="{{ asset('images/happy.png') }}" alt="Happy Emoji" />
-                </div>
-                <div class="recap-text">
-                    <div class="recap-date">Senin, 9 Januari 2025</div>
-                    <div class="recap-desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
-                </div>
-                </div>
-
-                <div class="recap-item">
-                <div class="emoji-container">
-                    <img src="{{ asset('images/sad.png') }}" alt="Sad Emoji" />
-                </div>
-                <div class="recap-text">
-                    <div class="recap-date">Selasa, 10 Januari 2025</div>
-                    <div class="recap-desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
-                </div>
-                </div>
-                <div class="recap-item">
-                <div class="emoji-container">
-                    <img src="{{ asset('images/netral.png') }}" alt="Netral Emoji" />
-                </div>
-                <div class="recap-text">
-                    <div class="recap-date">Selasa, 10 Januari 2025</div>
-                    <div class="recap-desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
-                </div>
-                </div>
-                <!-- Tambahkan recap-item lain sesuai kebutuhan -->
-            </div>
-        </section>
+</section>
 
         <section class="start-story-section">
             <h2 class="start-story-header">START YOUR STORY HERE!</h2>

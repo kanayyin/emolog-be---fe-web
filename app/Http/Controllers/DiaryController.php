@@ -28,7 +28,7 @@ class DiaryController extends Controller
             return response()->json(['diaries' => $diaries]);
         }
 
-        return view('diary.day', [
+        return view('home', [
             'date' => $request->date,
             'diaries' => $diaries
         ]);
@@ -53,7 +53,7 @@ class DiaryController extends Controller
             return response()->json($diaries);
         }
 
-        return view('diary.week', [
+        return view('home', [
             'start_date' => $start,
             'end_date' => $end,
             'diaries' => $diaries
@@ -106,7 +106,7 @@ class DiaryController extends Controller
             ]);
         }
 
-        return view('diary.today', [
+        return view('home', [
             'date' => $today,
             'mood' => $diary?->mood,
             'content' => $diary?->content
@@ -137,10 +137,15 @@ class DiaryController extends Controller
             return response()->json($result);
         }
 
-        return view('diary.mood-weekly', [
+        $dateRange = [];
+        for ($date = $start->copy(); $date->lte($end); $date->addDay()) {
+            $dateRange[] = $date->format('Y-m-d');
+        }
+        return view('home.home', [
             'moodByDay' => $result,
             'start' => $start,
             'end' => $end,
+            'dateRange' => $dateRange,
         ]);
     }
 

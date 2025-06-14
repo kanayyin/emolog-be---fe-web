@@ -434,7 +434,7 @@ nav.nav ul li a.active, nav.nav ul li a:hover {
 
 /* Main Content */
 .main-content-home {
-    padding: 490px 40px 40px 40px; /* Adding padding to the top for space below navbar */
+    padding: 250px 40px 40px 40px; /* Adding padding to the top for space below navbar */
     background-color: #f9f9f9;
 }
 
@@ -649,6 +649,105 @@ nav.nav ul li a.active, nav.nav ul li a:hover {
 .diary-date {
     font-size: 14px;
     color: #333;
+    font-weight: bold;
+}
+
+.week-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.nav-arrow {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+    padding: 0 10px;
+    transition: transform 0.2s ease;
+}
+
+.nav-arrow:hover {
+    transform: scale(1.2);
+}
+
+.nav-date {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.week-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+
+
+.day-box {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px;
+    background-color: #fdfdfd;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.day-label {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.emoji-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.emoji {
+    font-size: 24px;
+    color: #bbb;
+    transition: transform 0.2s, color 0.2s;
+}
+
+.emoji.highlight {
+    color: orange;
+    transform: scale(1.3);
+}
+
+.recap-week-mood-boxes {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 20px;
+}
+
+.recap-mood-box {
+    text-align: center;
+    border: 2px solid #ccc;
+    padding: 1rem;
+    border-radius: 20px;
+    width: 120px;
+    transition: transform 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+.recap-mood-box img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 0.5rem;
+}
+
+.recap-mood-box.highlight {
+    border-color: #4CAF50;
+    background-color: #e6ffe6;
+    transform: scale(1.1);
     font-weight: bold;
 }
 

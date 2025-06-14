@@ -45,8 +45,6 @@
       </div>
     </div>
   </section>
-  <footer class="footer-global">
-    <p>&copy; 2025 Dicoding</p>
-    </footer>
+  
 </body>
 </html>
