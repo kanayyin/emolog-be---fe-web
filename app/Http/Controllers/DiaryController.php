@@ -90,28 +90,29 @@ class DiaryController extends Controller
     }
 
     public function getTodayMood()
-    {
-        $user = Auth::user();
-        $today = Carbon::now()->toDateString();
+{
+    $user = Auth::user();
 
-        $diary = Diary::where('username', $user->username)
-            ->whereDate('diary_date', $today)
-            ->orderBy('id', 'desc')
-            ->first();
+    // Ambil 1 diary terakhir dari user (tanpa batas tanggal)
+    $latestDiary = Diary::where('username', $user->username)
+        ->orderByDesc('diary_date')
+        ->orderByDesc('id') // jika ada diary di tanggal yang sama, ambil yang paling terakhir ditulis
+        ->first();
 
-        if (request()->wantsJson()) {
-            return response()->json([
-                'date' => $today,
-                'mood' => $diary?->mood ?? null
-            ]);
-        }
-
-        return view('home.home', [
-            'date' => $today,
-            'mood' => $diary?->mood,
-            'content' => $diary?->content
+    if (request()->wantsJson()) {
+        return response()->json([
+            'date' => $latestDiary?->diary_date,
+            'mood' => $latestDiary?->mood ?? null
         ]);
     }
+
+    return view('home.home', [
+        'date' => $latestDiary?->diary_date,
+        'mood' => $latestDiary?->mood,
+        'content' => $latestDiary?->content
+    ]);
+}
+
 
     public function getWeeklyMood(Request $request)
 {
@@ -120,31 +121,43 @@ class DiaryController extends Controller
     $start = Carbon::parse($request->query('start_date', Carbon::now()->startOfWeek(CarbonInterface::MONDAY)));
     $end = $start->copy()->addDays(6);
 
+    // Generate tanggal-tanggal selama 1 minggu
     $dateRange = collect(range(0, 6))->map(function ($offset) use ($start) {
         return $start->copy()->addDays($offset)->format('Y-m-d');
     });
 
+    // Ambil diary user selama seminggu
     $diaries = Diary::where('username', $user->username)
         ->whereBetween('diary_date', [$start->toDateString(), $end->toDateString()])
-        ->get()
-        ->groupBy(function ($diary) {
-            return Carbon::parse($diary->diary_date)->locale('id')->isoFormat('dddd');
-        });
+        ->get();
 
-    $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
-    $result = [];
+    // Inisialisasi moodByDay kosong
+    $moodByDay = [];
 
-    foreach ($days as $day) {
-        $result[$day] = isset($diaries[$day]) ? $diaries[$day]->pluck('mood') : [];
+    foreach ($dateRange as $date) {
+        $moodByDay[$date] = [
+            'happy' => 0,
+            'neutral' => 0,
+            'sad' => 0,
+        ];
+    }
+
+    foreach ($diaries as $diary) {
+        $date = Carbon::parse($diary->diary_date)->format('Y-m-d');
+        $mood = strtolower($diary->mood); // jaga-jaga kalau 'Happy' atau 'HAPPY'
+        if (isset($moodByDay[$date][$mood])) {
+            $moodByDay[$date][$mood]++;
+        }
     }
 
     return view('home.home', [
-        'moodByDay' => $result,
+        'moodByDay' => $moodByDay,
         'start' => $start,
         'end' => $end,
         'dateRange' => $dateRange,
     ]);
 }
+
 
 
     public function deleteDiary($id)
