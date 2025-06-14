@@ -40,6 +40,12 @@ Route::get('/setting', function () {
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change.password');
+ Route::get('/diaries/day', [DiaryController::class, 'getDiariesByDay'])->name('diaries.day');
 
+    // API untuk ambil diary berdasarkan minggu
+    Route::get('/diaries/week', [DiaryController::class, 'getDiariesByWeek'])->name('diaries.week');
+Route::post('/diary/create', [DiaryController::class, 'createDiary'])->name('diary.store');
 
-
+Route::put('/diaries/{id}', [DiaryController::class, 'updateDiary'])->name('diary.update');
+    Route::delete('/diaries/{id}', [DiaryController::class, 'deleteDiary']);
+    Route::get('/diaries/{id}/edit', [DiaryController::class, 'edit'])->name('diary.edit');

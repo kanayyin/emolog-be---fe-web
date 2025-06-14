@@ -213,4 +213,12 @@ class DiaryController extends Controller
 
         return redirect()->back()->with('success', 'Diary berhasil diperbarui');
     }
+    public function edit($id)
+{
+    $diary = Diary::where('id', $id)
+        ->where('username', Auth::user()->username)
+        ->firstOrFail();
+
+    return view('edit-diary', compact('diary'));
+}
 }
