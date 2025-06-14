@@ -55,7 +55,33 @@
 
                 <!-- Placeholder in the same box -->
                 <div class="placeholder">
-                    <p>Quotes disini</p>
+                    <div class="quote-box" id="quote-box">
+                        @php
+                            $quotes = [
+                                'happy' => [
+                                    "Happiness is a direction, not a place.",
+                                    "Smile, it's a beautiful day!",
+                                    "Enjoy the little things in life."
+                                ],
+                                'neutral' => [
+                                    "Every day may not be good, but there's something good in every day.",
+                                    "Just keep going. One step at a time.",
+                                    "Breathe. Trust. Let go."
+                                ],
+                                'sad' => [
+                                    "It’s okay to feel sad. This too shall pass.",
+                                    "Crying doesn’t indicate that you’re weak.",
+                                    "You are not alone in this journey."
+                                ]
+                            ];
+
+                            $selectedMood = $mood ?? 'neutral';
+                            $selectedQuotes = $quotes[$selectedMood] ?? $quotes['neutral'];
+                            $randomQuote = $selectedQuotes[array_rand($selectedQuotes)];
+                        @endphp
+
+                        <p class="quote-text">“{{ $randomQuote }}”</p>
+                    </div>
                 </div>
             </div>
         </section>
