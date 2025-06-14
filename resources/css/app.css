@@ -2038,3 +2038,88 @@ button:disabled {
   font-size: 16px;
   font-weight: 500;
 }
+.calendar-labels, .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .calendar-labels div {
+            font-weight: bold;
+            color: #888;
+        }
+
+        .calendar-day {
+            padding: 10px;
+            border: none;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .calendar-day:hover {
+            background-color: #e0e0e0;
+        }
+
+        .calendar-day.selected {
+            background-color: #4285f4;
+            color: white;
+            font-weight: bold;
+        }
+
+        .calendar-day.empty {
+            visibility: hidden;
+        }
+
+        .toggle-mode {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .toggle-btn {
+            padding: 10px 20px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .toggle-btn.active {
+            background-color: #dc6868;
+            color: white;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .calendar-header button {
+            border: none;
+            background: none;
+            font-size: 20px;
+            margin: 0 10px;
+        }
+
+        .journal-card {
+            margin-top: 20px;
+        }
+
+        .floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #dc6868;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 30px;
+            cursor: pointer;
+        }
